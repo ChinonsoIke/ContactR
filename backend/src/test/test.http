@@ -1,0 +1,8 @@
+POST http://localhost:4000/contacts
+Content-Type: application/json
+
+{
+    "firstName": "Malik",
+    "lastName": "Jones",
+    "phoneNumber": "6419098786"
+}

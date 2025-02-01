@@ -1,0 +1,22 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsx watch ./src/app.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.0",
+    "express": "^4.21.2",
+    "tsx": "^4.19.2"
+  },
+  "dependencies": {
+    "express-validator": "^7.2.1",
+    "uuid": "^11.0.5"
+  }
+}
