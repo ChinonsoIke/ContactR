@@ -17,8 +17,12 @@ class DataSource {
         this.#persist();
     }
 
-    getByName (firstName: string, lastName:string) :Contact | undefined {
+    getByName (firstName :string, lastName :string) :Contact | undefined {
         return this.#contacts.find(c => c.firstName === firstName && c.lastName === lastName);
+    }
+
+    getById (id :string) :Contact | undefined {
+        return this.#contacts.find(c => c.id === id);
     }
 
     getAll ()  {
@@ -30,7 +34,7 @@ class DataSource {
         contact!.firstName = updatedContact.firstName;
         contact!.lastName = updatedContact.lastName;
         contact!.phoneNumber = updatedContact.phoneNumber;
-        contact!.picture = updatedContact.picture;
+        contact!.bookmark = updatedContact.bookmark;
 
         this.#persist();
     }

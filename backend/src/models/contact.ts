@@ -3,5 +3,5 @@ export default interface Contact {
     firstName: string,
     lastName: string,
     phoneNumber: string,
-    picture: string | null
+    bookmark: boolean,
 }
