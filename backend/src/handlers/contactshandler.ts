@@ -5,6 +5,7 @@ import { dataSource } from '../data/datasource';
 import { v4 as uuidv4 } from 'uuid';
 import ApiResponse from '../models/DTOs/apiResponse.ts';
 import UpdateContactDTO from '../models/DTOs/updateContactDTO.ts';
+import { join } from 'node:path';
 
 export const addContactHandler :RequestHandler<unknown, ApiResponse, CreateContactDTO, unknown> = ((req, res) =>{
     // make sure contact does not already exist
@@ -92,4 +93,15 @@ export const getContactsHandler :RequestHandler<unknown, ApiResponse, unknown, u
     };
 
     res.json(response);
+});
+
+export const exportContactsHandler :RequestHandler<unknown, string, unknown, unknown> = ((req, res) => {
+    const zipPath = dataSource.export();
+    res.sendFile(zipPath, (err) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Error sending file');
+        }else  console.log('sent')
+      });
+    return;
 });

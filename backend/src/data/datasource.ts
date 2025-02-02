@@ -1,7 +1,9 @@
 import { join } from "node:path";
 import Contact from "../models/contact";
 import { readFileSync, writeFileSync } from "node:fs";
-
+import VCard from 'vcard-creator';
+import archiver from 'archiver';
+import { createWriteStream } from 'node:fs';
 
 class DataSource {
     // instance :DataSource;
@@ -42,6 +44,27 @@ class DataSource {
     delete (id :string) {
         this.#contacts = this.#contacts.filter(c => c.id !== id);
         this.#persist();
+    }
+
+    export (){
+        this.#contacts.forEach(contact => {
+            const card = new VCard();
+            card.addName(contact.lastName, contact.firstName);
+            card.addPhoneNumber(contact.phoneNumber);
+            const cardContent = card.getOutput();
+            writeFileSync(join(__dirname, 'exports', `${contact.firstName}_${contact.lastName}.vcf`), cardContent);
+        });
+
+        const output = createWriteStream(join(__dirname, 'zips', 'zippedContacts.zip'));
+        const archive = archiver('zip', {
+            zlib: { level: 9 }
+        });
+    
+        const arch = archive.directory(join(__dirname, 'exports'), join(__dirname, 'zips'));
+        archive.pipe(output);
+        archive.finalize();
+        
+        return join(__dirname, 'zips', 'zippedContacts.zip');
     }
 
     #persist () {

@@ -16,3 +16,6 @@ PATCH http://localhost:4000/contacts/5164bae3-c96c-4e13-834f-fb9865729587?firstN
 ###
 
 DELETE http://localhost:4000/contacts/5164bae3-c96c-4e13-834f-fb9865729587
+###
+
+GET http://localhost:4000/contacts/export
