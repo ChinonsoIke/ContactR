@@ -10,3 +10,9 @@ export interface Contact {
     phoneNumber: string,
     bookmark: boolean,
 }
+
+export default interface CreateContactDTO {
+    firstName: string,
+    lastName: string,
+    phoneNumber: string
+}

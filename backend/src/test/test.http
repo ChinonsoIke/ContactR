@@ -1,12 +1,7 @@
 POST http://localhost:4000/contacts
 Content-Type: application/json
 
-{
-    "firstName": "Millies",
-    "lastName": "Jide",
-    "phoneNumber": "641909878336",
-    "bookmark": false
-}
+{"firstName":"dfdf","lastName":"df","phoneNumber":"0909"}
 ###
 
 GET http://localhost:4000/contacts
@@ -15,7 +10,7 @@ GET http://localhost:4000/contacts
 PATCH http://localhost:4000/contacts/5164bae3-c96c-4e13-834f-fb9865729587?firstName=Tunde
 ###
 
-DELETE http://localhost:4000/contacts/5164bae3-c96c-4e13-834f-fb9865729587
+DELETE http://localhost:4000/contacts/0891913d-ca5e-45a2-a2a3-ff4d7f3d799f
 ###
 
 GET http://localhost:4000/contacts/export

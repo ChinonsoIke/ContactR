@@ -11,6 +11,7 @@
   "description": "",
   "devDependencies": {
     "@types/archiver": "^6.0.3",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.0",
     "@types/vcf": "^2.0.7",
@@ -19,6 +20,7 @@
   },
   "dependencies": {
     "archiver": "^7.0.1",
+    "cors": "^2.8.5",
     "express-validator": "^7.2.1",
     "uuid": "^11.0.5",
     "vcard-creator": "^0.7.1",
