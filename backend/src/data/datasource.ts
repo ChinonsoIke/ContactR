@@ -40,9 +40,9 @@ class DataSource {
           }
     }
 
-    async getByName (firstName :string, lastName :string) {
+    async findExisting (phoneNumber :string) {
         const contactsResponse = (await this.getAll()) as Contact[];
-        return contactsResponse.find(c => c.firstName === firstName && c.lastName === lastName);
+        return contactsResponse.find(c => c.phoneNumber === phoneNumber);
     }
 
     async getById (id :string) {

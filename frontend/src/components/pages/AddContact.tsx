@@ -13,8 +13,25 @@ const AddContact = () => {
         lastName: '',
         phoneNumber: ''
     });
+    const [firstNameError, setfirstNameError] = useState('')
+    const [lastNameError, setlastNameError] = useState('')
+    const [phoneError, setPhoneError] = useState('')
+
     const handleSubmit = async (e :FormEvent) => {
         e.preventDefault();
+        if(formData.firstName.length < 2) {
+            setfirstNameError('First name must be at least two characters');
+            return;
+        }
+        if(formData.lastName.length < 2) {
+            setlastNameError('Last name must be at least two characters');
+            return;
+        }
+        if(formData.phoneNumber.length != 10 || !/^\d+$/.test(formData.phoneNumber)) {
+            setPhoneError('Phone number must be 10 digits');
+            return;
+        }
+
         await fetch(`${import.meta.env.VITE_APP_BACKEND_BASE_URL}/contacts`, {
             method: 'POST',
             body: JSON.stringify(formData),
@@ -41,14 +58,17 @@ const AddContact = () => {
                 <div className="flex flex-col mb-4">
                     <label className="mb-2" htmlFor="firstName">First Name</label>
                     <input name="firstName" onChange={handleChange} className="border p-4 rounded" value={formData.firstName} type="text" />
+                    {firstNameError && <p className="text-red-500">{firstNameError}</p>}
                 </div>
                 <div className="flex flex-col mb-4">
                     <label className="mb-2" htmlFor="lastName">Last Name</label>
                     <input name="lastName" onChange={handleChange} className="border p-4 rounded" value={formData.lastName} type="text" />
+                    {lastNameError && <p className="text-red-500">{lastNameError}</p>}
                 </div>
                 <div className="flex flex-col mb-4">
                     <label className="mb-2" htmlFor="phoneNumber">Phone Number</label>
                     <input name="phoneNumber" onChange={handleChange} className="border p-4 rounded" value={formData.phoneNumber} type="text" />
+                    {phoneError && <p className="text-red-500">{phoneError}</p>}
                 </div>
                 <button className="bg-black text-white p-4 rounded cursor-pointer" type="submit">Save</button>
             </form>

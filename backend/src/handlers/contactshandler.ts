@@ -46,7 +46,7 @@ export const addContactHandler :RequestHandler<unknown, ApiResponse, CreateConta
         }
     }
 
-    const existingContact :Contact | undefined = await dataSource.getByName(req.body.firstName, req.body.lastName);
+    const existingContact :Contact | undefined = await dataSource.findExisting(req.body.phoneNumber);
     if(existingContact){
         response.message = "This contact already exists";
 
