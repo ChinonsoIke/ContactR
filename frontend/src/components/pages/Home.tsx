@@ -1,20 +1,46 @@
-import { useAtom, useAtomValue } from "jotai";
-import { contactsAtom } from "../../App";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { baseUrl, contactsAtom, fetchApiResponse, refreshAtom } from "../../App";
 import { useEffect, useState } from "react";
-import { Contact } from "../../models";
-import { Link } from "react-router";
+import { Contact, UpdateContactDTO } from "../../models";
+import { Link, useNavigate } from "react-router";
 
 
 const letters = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
+
 const Home = () => {
+    
+    const navigate = useNavigate();
     const contacts = useAtomValue(contactsAtom);
+    const setRefresh = useSetAtom(refreshAtom);
     const [displayContacts, setDisplayContacts] = useState<Contact[]>(contacts);
     const [searchInput, setSearchInput] = useState('');
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deleteId, setDeleteId] = useState('');
+
     const handleClickSearch = (text :string) => {
         setDisplayContacts(contacts.filter(c => c.firstName.toLowerCase().startsWith(text) || c.lastName.toLowerCase().startsWith(text)));
     }
     const handleClickClearSearch = () => {
         setDisplayContacts(contacts);
+    }
+    const handleAction = async (id :string, e :React.ChangeEvent<HTMLSelectElement>) => {
+        console.log(e.target.value)
+        console.log(id)
+        if(e.target.value == 'edit') navigate(`edit/${id}`);
+        else if(e.target.value == 'bookmark') {
+            const contact = contacts.find(c => c.id == id);
+            await fetchApiResponse('PATCH', `${baseUrl}/contacts/${id}?bookmark=${contact!.bookmark ? 'false' : 'true'}`);
+            setRefresh(true);
+        }
+        else if(e.target.value == 'delete') {
+            setDeleteId(id);
+            setShowDeleteModal(true);
+        }
+    }
+    const handleDelete = async () => {
+        setShowDeleteModal(false);
+        await fetchApiResponse('DELETE', `${baseUrl}/contacts/${deleteId}`);
+        setRefresh(true);
     }
 
     useEffect(() => {
@@ -54,10 +80,11 @@ const Home = () => {
                                 <p className='text-3xl'>{c.firstName} {c.lastName}</p>
                                 <p>{c.phoneNumber}</p>
                             </div>
-                            <select className='actions bg-black text-white p-1 rounded' name="" id="">
-                                <option value="">Edit</option>
-                                <option value="">Bookmark</option>
-                                <option value="">Delete</option>
+                            <select value={c.id} onChange={(e) => handleAction(c.id, e)} className='actions bg-black text-white p-1 rounded' name="" id="">
+                                <option value="">Actions</option>
+                                <option value="edit">Edit</option>
+                                <option value="bookmark">{c.bookmark ? 'Un-Bookmark' : 'Bookmark'}</option>
+                                <option value="delete">Delete</option>
                             </select>
                         </div>
                     ))
@@ -70,13 +97,21 @@ const Home = () => {
                             <p className='text-3xl'>{c.firstName} {c.lastName}</p>
                             <p>{c.phoneNumber}</p>
                         </div>
-                        <select className='actions bg-black text-white p-1 rounded' name="" id="">
-                            <option value="">Edit</option>
-                            <option value="">Bookmark</option>
-                            <option value="">Delete</option>
+                        <select value={c.id} onChange={(e) => handleAction(c.id, e)} className='actions bg-black text-white p-1 rounded' name="" id="">
+                            <option value="edit">Edit</option>
+                            <option value="bookmark">Bookmark</option>
+                            <option value="delete">Delete</option>
                         </select>
                     </div>
                 ))}
+
+                {showDeleteModal && <div className="bg-white rounded p-4 fixed top-1/2 left-2/5 w-1/5 shadow-md">
+                    <p className="mb-4">Delete Contact?</p>
+                    <div className="flex justify-between">
+                        <button className="bg-black text-white p-2 rounded cursor-pointer" onClick={() => setShowDeleteModal(false)}>Cancel</button>
+                        <button onClick={() => handleDelete()} className="bg-red-500 text-white p-2 rounded cursor-pointer">Delete</button>
+                    </div>
+                </div>}
             </div>
         </div>
     )

@@ -54,10 +54,16 @@ export const updateContactHandler :RequestHandler<{id :string}, ApiResponse, unk
         return;
     }
 
+    // console.log(req.query)
+    let bookmark = false;
+    if(req.query.bookmark){
+        if(req.query.bookmark == 'true') bookmark = true;
+    }
+
     existingContact.firstName = req.query.firstName ?? existingContact.firstName;
     existingContact.lastName = req.query.lastName ?? existingContact.lastName;
     existingContact.phoneNumber = req.query.phoneNumber ?? existingContact.phoneNumber;
-    existingContact.bookmark = req.query.bookmark ?? existingContact.bookmark;
+    existingContact.bookmark = req.query.bookmark ? bookmark : existingContact.bookmark;
 
     dataSource.update(existingContact);
     response.message = 'Successful';

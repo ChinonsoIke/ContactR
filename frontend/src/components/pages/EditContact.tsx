@@ -1,11 +1,10 @@
-import { ChangeEvent, FormEvent, useState } from "react"
+import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { CreateContactDTO } from "../../models"
-import { useNavigate } from "react-router";
-import { useSetAtom } from "jotai";
-import { refreshAtom } from "../../App";
+import { useNavigate, useParams } from "react-router";
+import { useAtomValue, useSetAtom } from "jotai";
+import { baseUrl, contactsAtom, fetchApiResponse, refreshAtom } from "../../App";
 
-
-const AddContact = () => {
+const EditContact = () => {
     const setRefresh = useSetAtom(refreshAtom);
     const navigate = useNavigate();
     const [formData, setFormData] = useState<CreateContactDTO>({
@@ -13,16 +12,21 @@ const AddContact = () => {
         lastName: '',
         phoneNumber: ''
     });
+    const {id} = useParams();
+    const contacts = useAtomValue(contactsAtom);
+    // if(contacts.length < 1) setRefresh(true);
+
+    useEffect(() => {
+        const contact = contacts.find(c => c.id == id);
+        
+        console.log(contact)
+        setFormData({...formData, firstName: contact!.firstName, lastName: contact!.lastName, phoneNumber: contact!.phoneNumber});
+    }, [])
+
     const handleSubmit = async (e :FormEvent) => {
         e.preventDefault();
         console.log(import.meta.env.VITE_APP_BACKEND_BASE_URL)
-        const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_BASE_URL}/contacts`, {
-            method: 'POST',
-            body: JSON.stringify(formData),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+        await fetchApiResponse('PATCH', `${baseUrl}/contacts/${id}?firstName=${formData.firstName}&lastName=${formData.lastName}&phoneNumber=${formData.phoneNumber}`);
         setRefresh(true);
         navigate('/');
         // if(response.ok) 
@@ -56,4 +60,4 @@ const AddContact = () => {
     )
 }
 
-export default AddContact;
+export default EditContact;

@@ -11,8 +11,15 @@ export interface Contact {
     bookmark: boolean,
 }
 
-export default interface CreateContactDTO {
+export interface CreateContactDTO {
     firstName: string,
     lastName: string,
     phoneNumber: string
+}
+
+export interface UpdateContactDTO {
+    firstName: string | null,
+    lastName: string | null,
+    phoneNumber: string | null,
+    bookmark: boolean | null
 }
