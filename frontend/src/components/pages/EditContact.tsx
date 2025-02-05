@@ -39,6 +39,7 @@ const EditContact = () => {
 
     return (
         <div className="w-3/6">
+            <p className="font-bold text-3xl mb-8">Edit Contact</p>
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-col mb-4">
                     <label className="mb-2" htmlFor="firstName">First Name</label>

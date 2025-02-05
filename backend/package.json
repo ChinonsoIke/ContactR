@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "tsx watch ./src/app.ts"
+    "start": "tsx watch --env-file=.env ./src/app.ts"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +22,7 @@
     "archiver": "^7.0.1",
     "cors": "^2.8.5",
     "express-validator": "^7.2.1",
+    "firebase": "^11.2.0",
     "uuid": "^11.0.5",
     "vcard-creator": "^0.7.1",
     "vcf": "^2.1.2"

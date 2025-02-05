@@ -8,7 +8,7 @@ import UpdateContactDTO from '../models/DTOs/updateContactDTO.ts';
 import { join } from 'node:path';
 import archiver from 'archiver';
 
-export const addContactHandler :RequestHandler<unknown, ApiResponse, CreateContactDTO, unknown> = ((req, res) =>{
+export const addContactHandler :RequestHandler<unknown, ApiResponse, CreateContactDTO, unknown> = ( async(req, res) =>{
     // make sure contact does not already exist
     // validate input
     // add
@@ -17,7 +17,7 @@ export const addContactHandler :RequestHandler<unknown, ApiResponse, CreateConta
         data: null
     };
 
-    const existingContact :Contact | undefined = dataSource.getByName(req.body.firstName, req.body.lastName);
+    const existingContact :Contact | undefined = await dataSource.getByName(req.body.firstName, req.body.lastName);
     if(existingContact){
         response.message = "This contact already exists";
 
@@ -40,13 +40,13 @@ export const addContactHandler :RequestHandler<unknown, ApiResponse, CreateConta
     res.json(response);
 });
 
-export const updateContactHandler :RequestHandler<{id :string}, ApiResponse, unknown, UpdateContactDTO> = ((req, res) => {
+export const updateContactHandler :RequestHandler<{id :string}, ApiResponse, unknown, UpdateContactDTO> = async (req, res) => {
     const response :ApiResponse = {
         message: 'failed',
         data: null
     };
 
-    const existingContact :Contact | undefined = dataSource.getById(req.params.id);
+    const existingContact :Contact = await dataSource.getById(req.params.id);
     if(!existingContact){
         response.message = "Contact not found";
         res.statusCode = 400;
@@ -68,15 +68,15 @@ export const updateContactHandler :RequestHandler<{id :string}, ApiResponse, unk
     response.message = 'Successful';
     response.data = existingContact;
     res.json(response);
-});
+};
 
-export const deleteContactHandler :RequestHandler<{id :string}, ApiResponse, unknown, unknown> = ((req, res) => {
+export const deleteContactHandler :RequestHandler<{id :string}, ApiResponse, unknown, unknown> = (async (req, res) => {
     const response :ApiResponse = {
         message: 'failed',
         data: null
     };
 
-    const existingContact :Contact | undefined = dataSource.getById(req.params.id);
+    const existingContact :Contact = await dataSource.getById(req.params.id);
     if(!existingContact){
         response.message = "Contact not found";
 
@@ -91,18 +91,21 @@ export const deleteContactHandler :RequestHandler<{id :string}, ApiResponse, unk
 });
 
 export const getContactsHandler :RequestHandler<unknown, ApiResponse, unknown, unknown> = ((req, res) => {
-    const contacts = dataSource.getAll();
-    
-    const response :ApiResponse = {
-        message: 'Successful',
-        data: contacts
-    };
-
-    res.json(response);
+    const contacts = dataSource.getAll()
+        .then((result) => {
+            console.log(result)
+            
+            const response :ApiResponse = {
+                message: 'Successful',
+                data: result
+            };
+        
+            res.json(response);
+        });
 });
 
-export const exportContactsHandler :RequestHandler<unknown, string, unknown, unknown> = ((req, res) => {
-    const exportPath = dataSource.export();
+export const exportContactsHandler :RequestHandler<unknown, string, unknown, unknown> = (async (req, res) => {
+    const exportPath = await dataSource.export();
 
     const zip = archiver('zip');
 

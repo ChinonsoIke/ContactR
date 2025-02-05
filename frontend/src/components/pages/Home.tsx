@@ -18,7 +18,7 @@ const Home = () => {
     const [deleteId, setDeleteId] = useState('');
 
     const handleClickSearch = (text :string) => {
-        setDisplayContacts(contacts.filter(c => c.firstName.toLowerCase().startsWith(text) || c.lastName.toLowerCase().startsWith(text)));
+        setDisplayContacts(contacts.filter(c => c.firstName.toLowerCase().startsWith(text.toLowerCase()) || c.lastName.toLowerCase().startsWith(text.toLowerCase())));
     }
     const handleClickClearSearch = () => {
         setDisplayContacts(contacts);
@@ -89,12 +89,12 @@ const Home = () => {
                 <p className="font-bold mb-4">Bookmarked Contacts</p>
                 {
                     displayContacts.filter(c => c.bookmark).map(c => (
-                        <div key={c.id} className='contact-group flex gap-4 justify-around mb-4'>
+                        <div key={c.id} className='contact-group flex gap-4 justify-around mb-4 items-center'>
                             <div className='contact bg-gray-100 w-5/6 p-3 rounded'>
                                 <p className='text-3xl'>{c.firstName} {c.lastName}</p>
                                 <p>{c.phoneNumber}</p>
                             </div>
-                            <select value={c.id} onChange={(e) => handleAction(c.id, e)} className='actions bg-black text-white p-1 rounded' name="" id="">
+                            <select value={c.id} onChange={(e) => handleAction(c.id, e)} className='h-3/5 actions bg-black text-white p-2 rounded' name="" id="">
                                 <option value="">Actions</option>
                                 <option value="edit">Edit</option>
                                 <option value="bookmark">{c.bookmark ? 'Un-Bookmark' : 'Bookmark'}</option>
@@ -106,12 +106,12 @@ const Home = () => {
 
                 <p className="font-bold mb-4 mt-4">Other Contacts</p>
                 {displayContacts.filter(c => !c.bookmark).map(c => (
-                    <div key={c.id} className='contact-group flex gap-4 justify-around mb-4'>
+                    <div key={c.id} className='contact-group flex gap-4 justify-around items-center mb-4'>
                         <div className='contact bg-gray-100 w-5/6 p-3 rounded'>
                             <p className='text-3xl'>{c.firstName} {c.lastName}</p>
                             <p>{c.phoneNumber}</p>
                         </div>
-                        <select value={c.id} onChange={(e) => handleAction(c.id, e)} className='actions bg-black text-white p-1 rounded' name="" id="">
+                        <select value={c.id} onChange={(e) => handleAction(c.id, e)} className='h-3/5 actions bg-black text-white p-2 rounded' name="" id="">
                             <option value="edit">Edit</option>
                             <option value="bookmark">Bookmark</option>
                             <option value="delete">Delete</option>
