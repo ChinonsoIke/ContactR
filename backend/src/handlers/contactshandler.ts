@@ -7,6 +7,19 @@ import ApiResponse from '../models/DTOs/apiResponse.ts';
 import UpdateContactDTO from '../models/DTOs/updateContactDTO.ts';
 import { join } from 'node:path';
 import archiver from 'archiver';
+import { z } from "zod";
+
+const contactSchema = z.object({
+    firstName: z.string().nonempty(),
+    lastName: z.string().nonempty(),
+    phoneNumber: z.string().nonempty().length(10)
+})
+
+const updateContactSchema = z.object({
+    firstName: z.string().min(2).optional(),
+    lastName: z.string().min(2).optional(),
+    phoneNumber: z.string().length(10).optional()
+})
 
 export const addContactHandler :RequestHandler<unknown, ApiResponse, CreateContactDTO, unknown> = ( async(req, res) =>{
     // make sure contact does not already exist
@@ -16,6 +29,22 @@ export const addContactHandler :RequestHandler<unknown, ApiResponse, CreateConta
         message: 'failed',
         data: null
     };
+
+    try {
+        console.log(req.body)
+        const validatedData = contactSchema.parse(req.body);
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            console.error("Validation errors:", error.issues);
+            response.message = error.message;
+            res.statusCode = 400;
+            res.json(response);
+            return;
+
+        } else {
+            console.error("Unexpected error:", error);
+        }
+    }
 
     const existingContact :Contact | undefined = await dataSource.getByName(req.body.firstName, req.body.lastName);
     if(existingContact){
@@ -45,6 +74,21 @@ export const updateContactHandler :RequestHandler<{id :string}, ApiResponse, unk
         message: 'failed',
         data: null
     };
+
+    try {
+        const validatedData = updateContactSchema.parse(req.body);
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            console.error("Validation errors:", error.issues);
+            response.message = error.message;
+            res.statusCode = 400;
+            res.json(response);
+            return;
+
+        } else {
+            console.error("Unexpected error:", error);
+        }
+    }
 
     const existingContact :Contact = await dataSource.getById(req.params.id);
     if(!existingContact){
