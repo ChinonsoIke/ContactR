@@ -7,4 +7,6 @@ const app = express();
 app.use(cors());
 app.use('/', router);
 
-app.listen(4000, () => console.log('Contacts backend app listening on port 4000'));
+app.listen(3000, () => console.log('Contacts backend app listening on port 4000'));
+
+export default app;

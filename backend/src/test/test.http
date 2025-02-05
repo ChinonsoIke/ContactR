@@ -4,7 +4,7 @@ Content-Type: application/json
 {"firstName":"EmekUsss","lastName":"Ike","phoneNumber":"6428999444"}
 ###
 
-GET http://localhost:4000/contacts
+GET https://67a32b617752fd22d4f82076--contactrbackend.netlify.app/contacts
 ###
 
 PATCH http://localhost:4000/contacts/357e9b02-2902-4148-b63d-c9c8fc741643?phoneNumber=77777777

@@ -1,7 +1,6 @@
 import { atom, useAtom, useSetAtom } from 'jotai'
 import './App.css'
 import { ApiResponse, Contact } from './models';
-import { loadable } from 'jotai/utils';
 import Layout from './components/templates/Layout';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import Home from './components/pages/Home';

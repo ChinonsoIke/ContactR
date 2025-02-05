@@ -1,5 +1,4 @@
 import { Link, Outlet } from "react-router"
-import Home from "../pages/Home";
 
 const Layout = () => {
     return (

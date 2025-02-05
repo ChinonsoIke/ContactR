@@ -1,7 +1,7 @@
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { baseUrl, contactsAtom, fetchApiResponse, refreshAtom } from "../../App";
 import { useEffect, useState } from "react";
-import { Contact, UpdateContactDTO } from "../../models";
+import { Contact } from "../../models";
 import { Link, useNavigate } from "react-router";
 
 
@@ -61,15 +61,15 @@ const Home = () => {
     return (
         <div>
             <div className='search mt-4 mb-12 flex flex-col items-center'>
-                <div className='search-input flex gap-4 m-8 w-4/5 justify-between'>
+                <div className='search-input flex flex-col m-8 justify-between md:flex-row md:w-4/5 md:items-centered'>
                     <input 
                         value={searchInput} 
                         onChange={(e) => {setSearchInput(e.target.value); handleClickSearch(e.target.value)}} 
-                        className="border p-4 rounded w-2/5" type="text" placeholder="Search Contacts"
+                        className="border p-4 rounded w-full mb-4 md:w-2/5" type="text" placeholder="Search Contacts"
                     />
-                    <div>
-                        <Link to="/add" className="bg-black text-white p-4 rounded cursor-pointer mr-8">New Contact</Link>
-                        <button onClick={handleExport} className="border p-3 rounded cursor-pointer">Export Contacts</button>
+                    <div className="flex gap-4">
+                        <Link to="/add" className="bg-black text-white p-2 rounded cursor-pointer md:h-3/5">New Contact</Link>
+                        <button onClick={handleExport} className="border p-1 rounded cursor-pointer md:h-3/5">Export Contacts</button>
                     </div>
                 </div>
                 <div className='search-easy flex flex-wrap gap-4'>
@@ -91,10 +91,10 @@ const Home = () => {
                     displayContacts.filter(c => c.bookmark).map(c => (
                         <div key={c.id} className='contact-group flex gap-4 justify-around mb-4 items-center'>
                             <div className='contact bg-gray-100 w-5/6 p-3 rounded'>
-                                <p className='text-3xl'>{c.firstName} {c.lastName}</p>
+                                <p className='text-lg font-medium md:text-xl md:w-5/6'>{c.firstName} {c.lastName}</p>
                                 <p>{c.phoneNumber}</p>
                             </div>
-                            <select value={c.id} onChange={(e) => handleAction(c.id, e)} className='h-3/5 actions bg-black text-white p-2 rounded' name="" id="">
+                            <select value={c.id} onChange={(e) => handleAction(c.id, e)} className='h-3/5 w-2/5 md:w-1/6 actions bg-black text-white p-2 rounded' name="" id="">
                                 <option value="">Actions</option>
                                 <option value="edit">Edit</option>
                                 <option value="bookmark">{c.bookmark ? 'Un-Bookmark' : 'Bookmark'}</option>
@@ -108,10 +108,11 @@ const Home = () => {
                 {displayContacts.filter(c => !c.bookmark).map(c => (
                     <div key={c.id} className='contact-group flex gap-4 justify-around items-center mb-4'>
                         <div className='contact bg-gray-100 w-5/6 p-3 rounded'>
-                            <p className='text-3xl'>{c.firstName} {c.lastName}</p>
+                        <p className='text-lg font-medium md:text-xl md:w-5/6'>{c.firstName} {c.lastName}</p>
                             <p>{c.phoneNumber}</p>
                         </div>
-                        <select value={c.id} onChange={(e) => handleAction(c.id, e)} className='h-3/5 actions bg-black text-white p-2 rounded' name="" id="">
+                        <select value={c.id} onChange={(e) => handleAction(c.id, e)} className='h-3/5 w-2/5 md:w-1/6 actions bg-black text-white p-2 rounded' name="" id="">
+                            <option value="">Actions</option>
                             <option value="edit">Edit</option>
                             <option value="bookmark">Bookmark</option>
                             <option value="delete">Delete</option>
@@ -119,9 +120,9 @@ const Home = () => {
                     </div>
                 ))}
 
-                {showDeleteModal && <div className="bg-white rounded p-4 fixed top-1/2 left-2/5 w-1/5 shadow-md">
+                {showDeleteModal && <div className="bg-white rounded p-4 fixed top-1/2 left-2/5 md:w-1/5 shadow-md">
                     <p className="mb-4">Delete Contact?</p>
-                    <div className="flex justify-between">
+                    <div className="flex gap-4 justify-between">
                         <button className="bg-black text-white p-2 rounded cursor-pointer" onClick={() => setShowDeleteModal(false)}>Cancel</button>
                         <button onClick={() => handleDelete()} className="bg-red-500 text-white p-2 rounded cursor-pointer">Delete</button>
                     </div>

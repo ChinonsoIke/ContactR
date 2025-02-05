@@ -15,7 +15,7 @@ const AddContact = () => {
     });
     const handleSubmit = async (e :FormEvent) => {
         e.preventDefault();
-        const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_BASE_URL}/contacts`, {
+        await fetch(`${import.meta.env.VITE_APP_BACKEND_BASE_URL}/contacts`, {
             method: 'POST',
             body: JSON.stringify(formData),
             headers: {
@@ -35,7 +35,7 @@ const AddContact = () => {
     };
 
     return (
-        <div className="w-3/6">
+        <div className="md:w-3/6">
             <p className="font-bold text-3xl mb-8">Add New Contact</p>
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-col mb-4">

@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "tsx watch --env-file=.env ./src/app.ts"
+    "start": "tsx watch --env-file=.env ./src/app.ts",
+    "vercel-build": "echo hello"
   },
   "keywords": [],
   "author": "",
@@ -21,8 +22,10 @@
   "dependencies": {
     "archiver": "^7.0.1",
     "cors": "^2.8.5",
+    "dist": "^0.1.2",
     "express-validator": "^7.2.1",
     "firebase": "^11.2.0",
+    "src": "^1.1.2",
     "uuid": "^11.0.5",
     "vcard-creator": "^0.7.1",
     "vcf": "^2.1.2",
