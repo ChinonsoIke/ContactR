@@ -24,8 +24,6 @@ const Home = () => {
         setDisplayContacts(contacts);
     }
     const handleAction = async (id :string, e :React.ChangeEvent<HTMLSelectElement>) => {
-        console.log(e.target.value)
-        console.log(id)
         if(e.target.value == 'edit') navigate(`edit/${id}`);
         else if(e.target.value == 'bookmark') {
             const contact = contacts.find(c => c.id == id);
@@ -42,6 +40,19 @@ const Home = () => {
         await fetchApiResponse('DELETE', `${baseUrl}/contacts/${deleteId}`);
         setRefresh(true);
     }
+    const handleExport = () => {
+        fetch(`${baseUrl}/contacts/export`)
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'contacts.zip';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+        });
+    }
 
     useEffect(() => {
         setDisplayContacts(contacts);
@@ -56,7 +67,10 @@ const Home = () => {
                         onChange={(e) => {setSearchInput(e.target.value); handleClickSearch(e.target.value)}} 
                         className="border p-4 rounded w-2/5" type="text" placeholder="Search Contacts"
                     />
-                    <Link to="/add" className="bg-black text-white p-4 rounded cursor-pointer">New Contact</Link>
+                    <div>
+                        <Link to="/add" className="bg-black text-white p-4 rounded cursor-pointer mr-8">New Contact</Link>
+                        <button onClick={handleExport} className="border p-3 rounded cursor-pointer">Export Contacts</button>
+                    </div>
                 </div>
                 <div className='search-easy flex flex-wrap gap-4'>
                     {letters.map((letter) => (

@@ -15,7 +15,6 @@ const AddContact = () => {
     });
     const handleSubmit = async (e :FormEvent) => {
         e.preventDefault();
-        console.log(import.meta.env.VITE_APP_BACKEND_BASE_URL)
         const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_BASE_URL}/contacts`, {
             method: 'POST',
             body: JSON.stringify(formData),

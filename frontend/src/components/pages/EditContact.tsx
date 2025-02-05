@@ -19,13 +19,11 @@ const EditContact = () => {
     useEffect(() => {
         const contact = contacts.find(c => c.id == id);
         
-        console.log(contact)
         setFormData({...formData, firstName: contact!.firstName, lastName: contact!.lastName, phoneNumber: contact!.phoneNumber});
     }, [])
 
     const handleSubmit = async (e :FormEvent) => {
         e.preventDefault();
-        console.log(import.meta.env.VITE_APP_BACKEND_BASE_URL)
         await fetchApiResponse('PATCH', `${baseUrl}/contacts/${id}?firstName=${formData.firstName}&lastName=${formData.lastName}&phoneNumber=${formData.phoneNumber}`);
         setRefresh(true);
         navigate('/');

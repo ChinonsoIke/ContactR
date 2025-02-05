@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import ApiResponse from '../models/DTOs/apiResponse.ts';
 import UpdateContactDTO from '../models/DTOs/updateContactDTO.ts';
 import { join } from 'node:path';
+import archiver from 'archiver';
 
 export const addContactHandler :RequestHandler<unknown, ApiResponse, CreateContactDTO, unknown> = ((req, res) =>{
     // make sure contact does not already exist
@@ -16,7 +17,6 @@ export const addContactHandler :RequestHandler<unknown, ApiResponse, CreateConta
         data: null
     };
 
-    console.log(req.body)
     const existingContact :Contact | undefined = dataSource.getByName(req.body.firstName, req.body.lastName);
     if(existingContact){
         response.message = "This contact already exists";
@@ -53,8 +53,7 @@ export const updateContactHandler :RequestHandler<{id :string}, ApiResponse, unk
         res.json(response);
         return;
     }
-
-    // console.log(req.query)
+    
     let bookmark = false;
     if(req.query.bookmark){
         if(req.query.bookmark == 'true') bookmark = true;
@@ -103,12 +102,14 @@ export const getContactsHandler :RequestHandler<unknown, ApiResponse, unknown, u
 });
 
 export const exportContactsHandler :RequestHandler<unknown, string, unknown, unknown> = ((req, res) => {
-    const zipPath = dataSource.export();
-    res.sendFile(zipPath, (err) => {
-        if (err) {
-          console.error(err);
-          res.status(500).send('Error sending file');
-        }else  console.log('sent')
-      });
-    return;
+    const exportPath = dataSource.export();
+
+    const zip = archiver('zip');
+
+    res.setHeader('Content-Type', 'application/zip');
+    res.setHeader('Content-Disposition', 'attachment; filename=contacts.zip');
+
+    zip.pipe(res);
+    zip.directory(exportPath, false);
+    zip.finalize();
 });

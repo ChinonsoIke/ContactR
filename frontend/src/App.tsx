@@ -21,7 +21,6 @@ export const fetchApiResponse = async (method: string, url: string, body :string
       })).json();
       return response;        
   } catch (error) {
-      console.log(error);
       throw error;
   }
 }

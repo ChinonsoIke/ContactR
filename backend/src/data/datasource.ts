@@ -1,6 +1,6 @@
 import { join } from "node:path";
 import Contact from "../models/contact";
-import { readFileSync, writeFileSync } from "node:fs";
+import { mkdir, readFileSync, rm, rmdir, rmdirSync, writeFileSync } from "node:fs";
 import VCard from 'vcard-creator';
 import archiver from 'archiver';
 import { createWriteStream } from 'node:fs';
@@ -47,6 +47,9 @@ class DataSource {
     }
 
     export (){
+        rm(join(__dirname, 'exports'), { recursive: true }, ()=> {});
+        mkdir(join(__dirname, 'exports'), ()=>{}); //remove stale exports
+
         this.#contacts.forEach(contact => {
             const card = new VCard();
             card.addName(contact.lastName, contact.firstName);
@@ -54,17 +57,8 @@ class DataSource {
             const cardContent = card.getOutput();
             writeFileSync(join(__dirname, 'exports', `${contact.firstName}_${contact.lastName}.vcf`), cardContent);
         });
-
-        const output = createWriteStream(join(__dirname, 'zips', 'zippedContacts.zip'));
-        const archive = archiver('zip', {
-            zlib: { level: 9 }
-        });
-    
-        const arch = archive.directory(join(__dirname, 'exports'), join(__dirname, 'zips'));
-        archive.pipe(output);
-        archive.finalize();
         
-        return join(__dirname, 'zips', 'zippedContacts.zip');
+        return join(__dirname, 'exports');
     }
 
     #persist () {
