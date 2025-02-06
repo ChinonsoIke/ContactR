@@ -76,7 +76,7 @@ const EditContact = () => {
                 </div>
                 <div className="flex flex-col mb-4">
                     <label className="mb-2" htmlFor="email">Email</label>
-                    <input name="lastName" onChange={handleChange} className="border p-4 rounded" value={formData.email} type="text" />
+                    <input name="email" onChange={handleChange} className="border p-4 rounded" value={formData.email} type="text" />
                     {emailError && <p className="text-red-500">{emailError}</p>}
                 </div>
                 <div className="flex flex-col mb-4">
