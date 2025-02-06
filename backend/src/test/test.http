@@ -7,7 +7,7 @@ Content-Type: application/json
 GET http://localhost:3000/contacts
 ###
 
-PATCH http://localhost:3000/contacts/3136302b-d448-4955-b142-0cfa81378454?email=em@test.com
+PATCH http://localhost:3000/contacts/3136302b-d448-4955-b142-0cfa81378454?email=emmy@test.com
 ###
 
 DELETE http://localhost:3000/contacts/6a572a4b-7b18-4809-84ef-1b121f8cdd85

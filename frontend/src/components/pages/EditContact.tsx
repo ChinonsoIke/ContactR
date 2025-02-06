@@ -46,7 +46,7 @@ const EditContact = () => {
             return;
         }
 
-        await fetchApiResponse('PATCH', `${baseUrl}/contacts/${id}?firstName=${formData.firstName}&lastName=${formData.lastName}&phoneNumber=${formData.phoneNumber}`);
+        await fetchApiResponse('PATCH', `${baseUrl}/contacts/${id}?firstName=${formData.firstName}&lastName=${formData.lastName}&phoneNumber=${formData.phoneNumber}&email=${formData.email}`);
         setRefresh(true);
         navigate('/');
         // if(response.ok) 
