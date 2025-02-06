@@ -93,7 +93,7 @@ const Home = () => {
                             <div className='contact bg-gray-100 w-5/6 p-3 rounded'>
                                 <p className='text-lg font-medium md:text-xl md:w-5/6 mb-2'>{c.firstName} {c.lastName}</p>
                                 <div className="flex flex-col">
-                                    <a className="font-light" href="tel:+">{c.phoneNumber}</a>
+                                    <a className="font-light" href={'tel:'+c.phoneNumber}>{c.phoneNumber}</a>
                                     <a className="font-light underline" href="mailto:">{c.email}</a>
                                 </div>
                             </div>
@@ -113,7 +113,7 @@ const Home = () => {
                         <div className='contact bg-gray-100 w-5/6 p-3 rounded'>
                             <p className='text-lg font-medium md:text-xl md:w-5/6 mb-2'>{c.firstName} {c.lastName}</p>
                             <div className="flex flex-col">
-                                <a className="font-light" href="tel:+">{c.phoneNumber}</a>
+                                <a className="font-light" href={'tel:'+c.phoneNumber}>{c.phoneNumber}</a>
                                 <a className="font-light underline" href="mailto:">{c.email}</a>
                             </div>
                         </div>
