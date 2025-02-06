@@ -10,19 +10,21 @@ const EditContact = () => {
     const [formData, setFormData] = useState<CreateContactDTO>({
         firstName: '',
         lastName: '',
+        email: '',
         phoneNumber: ''
     });
     const {id} = useParams();
     const contacts = useAtomValue(contactsAtom);
     const [firstNameError, setfirstNameError] = useState('')
     const [lastNameError, setlastNameError] = useState('')
+    const [emailError, setEmailError] = useState('')
     const [phoneError, setPhoneError] = useState('')
     // if(contacts.length < 1) setRefresh(true);
 
     useEffect(() => {
         const contact = contacts.find(c => c.id == id);
         
-        setFormData({...formData, firstName: contact!.firstName, lastName: contact!.lastName, phoneNumber: contact!.phoneNumber});
+        setFormData({...formData, firstName: contact!.firstName, lastName: contact!.lastName, phoneNumber: contact!.phoneNumber, email: contact!.email});
     }, [])
 
     const handleSubmit = async (e :FormEvent) => {
@@ -33,6 +35,10 @@ const EditContact = () => {
         }
         if(formData.lastName.length < 2) {
             setlastNameError('Last name must be at least two characters');
+            return;
+        }
+        if(!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)) {
+            setEmailError('Email must be a valid email address');
             return;
         }
         if(formData.phoneNumber.length != 10 || !/^\d+$/.test(formData.phoneNumber)) {
@@ -67,6 +73,11 @@ const EditContact = () => {
                     <label className="mb-2" htmlFor="lastName">Last Name</label>
                     <input name="lastName" onChange={handleChange} className="border p-4 rounded" value={formData.lastName} type="text" />
                     {lastNameError && <p className="text-red-500">{lastNameError}</p>}
+                </div>
+                <div className="flex flex-col mb-4">
+                    <label className="mb-2" htmlFor="email">Email</label>
+                    <input name="lastName" onChange={handleChange} className="border p-4 rounded" value={formData.email} type="text" />
+                    {emailError && <p className="text-red-500">{emailError}</p>}
                 </div>
                 <div className="flex flex-col mb-4">
                     <label className="mb-2" htmlFor="phoneNumber">Phone Number</label>

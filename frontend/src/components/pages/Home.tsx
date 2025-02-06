@@ -91,8 +91,11 @@ const Home = () => {
                     displayContacts.filter(c => c.bookmark).map(c => (
                         <div key={c.id} className='contact-group flex gap-4 justify-around mb-4 items-center'>
                             <div className='contact bg-gray-100 w-5/6 p-3 rounded'>
-                                <p className='text-lg font-medium md:text-xl md:w-5/6'>{c.firstName} {c.lastName}</p>
-                                <p>{c.phoneNumber}</p>
+                                <p className='text-lg font-medium md:text-xl md:w-5/6 mb-2'>{c.firstName} {c.lastName}</p>
+                                <div className="flex flex-col">
+                                    <a className="font-light" href="tel:+">{c.phoneNumber}</a>
+                                    <a className="font-light underline" href="mailto:">{c.email}</a>
+                                </div>
                             </div>
                             <select value={c.id} onChange={(e) => handleAction(c.id, e)} className='h-3/5 w-2/5 md:w-1/6 actions bg-black text-white p-2 rounded' name="" id="">
                                 <option value="">Actions</option>
@@ -108,8 +111,11 @@ const Home = () => {
                 {displayContacts.filter(c => !c.bookmark).map(c => (
                     <div key={c.id} className='contact-group flex gap-4 justify-around items-center mb-4'>
                         <div className='contact bg-gray-100 w-5/6 p-3 rounded'>
-                        <p className='text-lg font-medium md:text-xl md:w-5/6'>{c.firstName} {c.lastName}</p>
-                            <p>{c.phoneNumber}</p>
+                            <p className='text-lg font-medium md:text-xl md:w-5/6 mb-2'>{c.firstName} {c.lastName}</p>
+                            <div className="flex flex-col">
+                                <a className="font-light" href="tel:+">{c.phoneNumber}</a>
+                                <a className="font-light underline" href="mailto:">{c.email}</a>
+                            </div>
                         </div>
                         <select value={c.id} onChange={(e) => handleAction(c.id, e)} className='h-3/5 w-2/5 md:w-1/6 actions bg-black text-white p-2 rounded' name="" id="">
                             <option value="">Actions</option>

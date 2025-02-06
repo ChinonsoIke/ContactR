@@ -12,12 +12,14 @@ import { z } from "zod";
 const contactSchema = z.object({
     firstName: z.string().nonempty(),
     lastName: z.string().nonempty(),
+    email: z.string().email().nonempty(),
     phoneNumber: z.string().nonempty().length(10)
 })
 
 const updateContactSchema = z.object({
     firstName: z.string().min(2).optional(),
     lastName: z.string().min(2).optional(),
+    email: z.string().email().optional(),
     phoneNumber: z.string().length(10).optional()
 })
 
@@ -59,6 +61,7 @@ export const addContactHandler :RequestHandler<unknown, ApiResponse, CreateConta
         id: uuidv4(),
         firstName: req.body.firstName,
         lastName: req.body.lastName,
+        email: req.body.email,
         phoneNumber: req.body.phoneNumber,
         bookmark: false
     };
@@ -105,6 +108,7 @@ export const updateContactHandler :RequestHandler<{id :string}, ApiResponse, unk
 
     existingContact.firstName = req.query.firstName ?? existingContact.firstName;
     existingContact.lastName = req.query.lastName ?? existingContact.lastName;
+    existingContact.email = req.query.email ?? existingContact.email;
     existingContact.phoneNumber = req.query.phoneNumber ?? existingContact.phoneNumber;
     existingContact.bookmark = req.query.bookmark ? bookmark : existingContact.bookmark;
 

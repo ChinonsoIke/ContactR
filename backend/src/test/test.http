@@ -1,16 +1,16 @@
-POST http://localhost:4000/contacts
+POST http://localhost:3000/contacts
 Content-Type: application/json
 
-{"firstName":"EmekUsss","lastName":"Ike","phoneNumber":"6428999444"}
+{"firstName":"Kemo","lastName":"Sabe","phoneNumber":"6428999544", "email": "ksab@test.com"}
 ###
 
-GET https://67a32b617752fd22d4f82076--contactrbackend.netlify.app/contacts
+GET http://localhost:3000/contacts
 ###
 
-PATCH http://localhost:4000/contacts/357e9b02-2902-4148-b63d-c9c8fc741643?phoneNumber=77777777
+PATCH http://localhost:3000/contacts/3136302b-d448-4955-b142-0cfa81378454?email=em@test.com
 ###
 
-DELETE http://localhost:4000/contacts/IOK57CDUY0Bx5EYU3kQx
+DELETE http://localhost:3000/contacts/6a572a4b-7b18-4809-84ef-1b121f8cdd85
 ###
 
 GET http://localhost:4000/contacts/export
